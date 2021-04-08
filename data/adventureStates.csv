@@ -1,8 +1,8 @@
 ID,StateName,ClassName,PNGFilename,CollisionFilename
-0,Splash,PNGRoom,assets/Splash.png,
-1,Instructions,InstructionsScreen,assets/Instructions.png,
-2,Start,PNGRoom,assets/Start.png,
-3,FeedMe,PNGRoom,assets/pg1.jpg,
+0,Splash,PNGRoom,assets/startPage.png,
+1,Instructions,InstructionsScreen,assets/startPage.png,
+2,Start,PNGRoom,assets/pg1.png,
+3,FeedMe,PNGRoom,assets/pg4.png,
 4,Sleepy,PNGRoom,assets/pg2.png,
 5,HoHum,PNGRoom,assets/pg3.png,
 6,MyNerves,PNGRoom,assets/pg4.png,
