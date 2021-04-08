@@ -166,7 +166,7 @@ class InstructionsScreen extends PNGRoom {
     this.textBoxHeight = (height/6)*4; 
 
     // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    this.instructionsText = "You are navigating through the interior space of your moods. There is no goal to this game, but just a chance to explore various things that might be going on in your head. Use the ARROW keys to navigate your avatar around.";
+    this.instructionsText = "You are Little Red Hiding Hood – now as a young woman trying to walk home after a shift at the local bakery in the village. The sun is about to set and it will only get darker. Remember to be aware of your surroundings .... and especially any strangers.";
   }
 
   // call the PNGRoom superclass's draw function to draw the background image
