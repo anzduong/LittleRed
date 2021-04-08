@@ -6,11 +6,12 @@ Start,,,,,W,Calm
 Start,,,,,E,Sleepy
 FeedMe,,,,,W,Mad
 FeedMe,,,,,E,Mad
-FeedMe,,,,,N,NoHum
+FeedMe,,,,,N,HoHum
 FeedMe,,,,,S,Mad
 Sleepy,,,,,W,Start
 Sleepy,,,,,E,HoHum
 HoHum,,,,,S,FeedMe
+HoHum,,,,,W,Sleepy
 Mad,,,,,W,FeedMe
 Mad,,,,,E,Calm
 Calm,,,,,W,Mad
