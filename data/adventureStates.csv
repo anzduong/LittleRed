@@ -9,3 +9,4 @@ ID,StateName,ClassName,PNGFilename,CollisionFilename
 7,Forest3,PNGRoom,assets/pg6.png,
 8,Forest4,PNGRoom,assets/pg7.png,
 9,Forest5,PNGRoom,Assets/pg8.png,
+10,Home,PNGRoom,Assets/pgFin.png,

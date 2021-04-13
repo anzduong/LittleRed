@@ -15,3 +15,5 @@ Forest3,,,,,W,Forest2
 Forest3,,,,,E,Forest4
 Forest4,,,,,W,Forest4
 Forest4,,,,,E,Forest5
+Forest5,,,,,W,Forest4
+Forest5,,,,,E,Home
