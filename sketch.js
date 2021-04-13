@@ -43,6 +43,8 @@ function setup() {
 
   // every animation needs a descriptor, since we aren't switching animations, this string value doesn't matter
   playerSprite.addAnimation('regular', loadAnimation('assets/avatars/blueblob-01.png', 'assets/avatars/blueblob-05.png'));
+  playerSprite.addAnimation('still', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
+  playerSprite.addAnimation('upDown', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
   
 
   // use this to track movement from toom to room in adventureManager.draw()
@@ -103,19 +105,37 @@ function mouseReleased() {
 
 //-------------- YOUR SPRITE MOVEMENT CODE HERE  ---------------//
 function moveSprite() {
-  if(keyIsDown(RIGHT_ARROW))
-    playerSprite.velocity.x = 10;
-  else if(keyIsDown(LEFT_ARROW))
-    playerSprite.velocity.x = -10;
-  else
-    playerSprite.velocity.x = 0;
-
-  if(keyIsDown(DOWN_ARROW))
-    playerSprite.velocity.y = 10;
-  else if(keyIsDown(UP_ARROW))
-    playerSprite.velocity.y = -10;
-  else
-    playerSprite.velocity.y = 0;
+  // move side to side
+  //walk to the right
+  if(keyIsDown(RIGHT_ARROW)) {
+    playerSprite.changeAnimation('regular');
+    //flip to go right
+    playerSprite.mirrorX(1);
+    playerSprite.velocity.x = 4;
+  }
+  //walk to the left
+  else if(keyIsDown(LEFT_ARROW)) {
+    playerSprite.changeAnimation('regular');
+    //flip to go left
+    playerSprite.mirrorX(-1);
+    playerSprite.velocity.x = -4;
+  }
+  //move up and down
+  //going down
+  else if(keyIsDown(DOWN_ARROW)) {
+    playerSprite.changeAnimation('upDown');
+    playerSprite.velocity.y = 4;
+  }
+  //walk to the left
+  else if(keyIsDown(UP_ARROW)) {
+    playerSprite.changeAnimation('upDown');
+    playerSprite.velocity.y = -4;
+  }
+  else {
+    playerSprite.changeAnimation('still');
+    playerSprite.velocity.x = 0; 
+    playerSprite.velocity.y = 0; 
+  }
 }
 
 //-------------- CLICKABLE CODE  ---------------//
