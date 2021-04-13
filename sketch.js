@@ -72,7 +72,10 @@ function draw() {
 
   // No avatar for Splash screen or Instructions screen
   if( adventureManager.getStateName() !== "Splash" && 
-      adventureManager.getStateName() !== "Instructions" ) {
+      adventureManager.getStateName() !== "Instructions" &&
+      adventureManager.getStateName() !== "Village" &&
+      adventureManager.getStateName() !== "Bakery2" &&
+      adventureManager.getStateName() !== "Forest1" ) {
       
     // responds to keydowns
     moveSprite();
@@ -168,6 +171,17 @@ clickableButtonPressed = function() {
   adventureManager.clickablePressed(this.name); 
 }
 
+// ---- NEEDS WORK ----//
+function leaveVillage() {
+  if (adventureManager.getStateName() == "Village") {
+    adventureManager.changeState("Forest1");
+  }
+  else if (adventureManager.getStateName() == "Village") {
+    adventureManager.changeState("Bakery2");
+  }
+  playerSprite.position.x = 400;
+  playerSprite.position.y = 480;
+}
 
 
 //-------------- SUBCLASSES / YOUR DRAW CODE CAN GO HERE ---------------//
@@ -194,6 +208,36 @@ class InstructionsScreen extends PNGRoom {
   draw() {
     // tint down background image so text is more readable
     tint(128);
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+      
+    // text draw settings
+    fill(255);
+    textAlign(CENTER);
+    textSize(30);
+
+    // Draw text in a box
+    text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
+  }
+}
+
+class Bakery2 extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+    // These are out variables in the InstructionsScreen class
+    this.textBoxWidth = (width/6)*4;
+    this.textBoxHeight = (height/6)*4; 
+
+    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
+    this.instructionsText = "Time to clock out for the night. It's 5PM and the sun is beginning to set. Hurry home before it gets too dark outside.";
+  }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
       
     // this calls PNGRoom.draw()
     super.draw();
