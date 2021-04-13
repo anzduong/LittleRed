@@ -222,13 +222,13 @@ class InstructionsScreen extends PNGRoom {
   }
 }
 
-class Bakery2 extends PNGRoom {
+class Shop extends PNGRoom {
   // preload is where we define OUR variables
   // Best not to use constructor() functions for sublcasses of PNGRoom
   // AdventureManager calls preload() one time, during startup
   preload() {
     // These are out variables in the InstructionsScreen class
-    this.textBoxWidth = (width/6)*4;
+    this.textBoxWidth = (width/6)*2;
     this.textBoxHeight = (height/6)*4; 
 
     // hard-coded, but this could be loaded from a file if we wanted to be more elegant
@@ -248,7 +248,66 @@ class Bakery2 extends PNGRoom {
     textSize(30);
 
     // Draw text in a box
-    text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
+    text(this.instructionsText, width/3, height/2 - 100, this.textBoxWidth, this.textBoxHeight );
   }
 }
 
+class Town extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+    // These are out variables in the InstructionsScreen class
+    this.textBoxWidth = (width/6)*2;
+    this.textBoxHeight = (height/6)*4; 
+
+    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
+    this.instructionsText = "You are about to enter the forest. Are you prepared? If not, turn around now and look for a different option. Press the down arrow to enter.";
+  }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+      
+    // text draw settings
+    fill(255);
+    textAlign(CENTER);
+    textSize(30);
+
+    // Draw text in a box
+    text(this.instructionsText, width/2 + 100, height/2 + 100, this.textBoxWidth, this.textBoxHeight );
+  }
+}
+
+class Forest extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+    // These are out variables in the InstructionsScreen class
+    this.textBoxWidth = (width/6)*4;
+    this.textBoxHeight = (height/6)*4; 
+
+    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
+    this.instructionsText = "Before you go any deeper. Decide what weapon you want to hold in your hand. W: Mace – E: Taser – S: Alarm";
+  }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+      
+    // text draw settings
+    fill(255);
+    textAlign(CENTER);
+    textSize(30);
+
+    // Draw text in a box
+    text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
+  }
+}
