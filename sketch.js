@@ -114,25 +114,25 @@ function moveSprite() {
     playerSprite.changeAnimation('regular');
     //flip to go right
     playerSprite.mirrorX(1);
-    playerSprite.velocity.x = 4;
+    playerSprite.velocity.x = 4.5;
   }
   //walk to the left
   else if(keyIsDown(LEFT_ARROW)) {
     playerSprite.changeAnimation('regular');
     //flip to go left
     playerSprite.mirrorX(-1);
-    playerSprite.velocity.x = -4;
+    playerSprite.velocity.x = -4.5;
   }
   //move up and down
   //going down
   else if(keyIsDown(DOWN_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = 4;
+    playerSprite.velocity.y = 4.5;
   }
   //walk to the left
   else if(keyIsDown(UP_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = -4;
+    playerSprite.velocity.y = -4.5;
   }
   else {
     playerSprite.changeAnimation('still');
@@ -311,3 +311,35 @@ class Forest extends PNGRoom {
     text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
   }
 }
+
+class Forest2a extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+    // These are out variables in the InstructionsScreen class
+    this.textBoxWidth = (width/6)*4;
+    this.textBoxHeight = (height/6)*4; 
+
+    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
+    this.instructionsText = "Before you go any deeper. Decide what weapon you want to hold in your hand. W: Mace – E: Taser – S: Alarm";
+  }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+      
+    // text draw settings
+    fill(255);
+    textAlign(CENTER);
+    textSize(30);
+
+    // Draw text in a box
+    text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
+  }
+}
+
+
