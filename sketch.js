@@ -25,6 +25,8 @@ var clickables;           // an array of clickable objects
 // indexes into the clickable array (constants)
 const playGameIndex = 0;
 
+var knifeCollected;
+
 // Allocate Adventure Manager with states table and interaction tables
 function preload() {
   clickablesManager = new ClickableManager('data/clickableLayout.csv');
@@ -38,13 +40,19 @@ function setup() {
   // setup the clickables = this will allocate the array
   clickables = clickablesManager.setup();
 
+  knifeSprite = createSprite(1200, 350, 150, 150);
+
+  knifeSprite.addAnimation('regular', loadAnimation('assets/knife1.png', 'assets/knife2.png'));
+
   // create a sprite and add the 3 animations
-  playerSprite = createSprite(width/2, height/2, 80, 80);
+  playerSprite = createSprite(width/2, height/2 + 200, 80, 80);
 
   // every animation needs a descriptor, since we aren't switching animations, this string value doesn't matter
   playerSprite.addAnimation('regular', loadAnimation('assets/avatars/blueblob-01.png', 'assets/avatars/blueblob-05.png'));
   playerSprite.addAnimation('still', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
   playerSprite.addAnimation('upDown', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
+
+  knifeCollected = false;
   
 
   // use this to track movement from toom to room in adventureManager.draw()
@@ -114,25 +122,25 @@ function moveSprite() {
     playerSprite.changeAnimation('regular');
     //flip to go right
     playerSprite.mirrorX(1);
-    playerSprite.velocity.x = 4.5;
+    playerSprite.velocity.x = 10;
   }
   //walk to the left
   else if(keyIsDown(LEFT_ARROW)) {
     playerSprite.changeAnimation('regular');
     //flip to go left
     playerSprite.mirrorX(-1);
-    playerSprite.velocity.x = -4.5;
+    playerSprite.velocity.x = -10;
   }
   //move up and down
   //going down
   else if(keyIsDown(DOWN_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = 4.5;
+    playerSprite.velocity.y = 10;
   }
   //walk to the left
   else if(keyIsDown(UP_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = -4.5;
+    playerSprite.velocity.y = -10;
   }
   else {
     playerSprite.changeAnimation('still');
@@ -183,6 +191,10 @@ function leaveVillage() {
   playerSprite.position.y = 480;
 }
 
+
+function knifeCollision() {
+  knifeCollected = true;
+}
 
 //-------------- SUBCLASSES / YOUR DRAW CODE CAN GO HERE ---------------//
 
@@ -301,7 +313,7 @@ class Forest extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
-      
+    
     // text draw settings
     fill(255);
     textAlign(CENTER);
@@ -312,7 +324,7 @@ class Forest extends PNGRoom {
   }
 }
 
-class Forest2a extends PNGRoom {
+class Forest2 extends PNGRoom {
   // preload is where we define OUR variables
   // Best not to use constructor() functions for sublcasses of PNGRoom
   // AdventureManager calls preload() one time, during startup
@@ -331,6 +343,11 @@ class Forest2a extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
+    if (knifeCollected === false) {
+      drawSprite(knifeSprite);
+      playerSprite.overlap(knifeSprite,knifeCollision);
+    }
+
       
     // text draw settings
     fill(255);
@@ -341,5 +358,3 @@ class Forest2a extends PNGRoom {
     text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
   }
 }
-
-
