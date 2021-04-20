@@ -25,7 +25,9 @@ var clickables;           // an array of clickable objects
 // indexes into the clickable array (constants)
 const playGameIndex = 0;
 
-var knifeCollected;
+var catRingCollected;
+var taserCollected;
+var phoneCollected;
 
 // Allocate Adventure Manager with states table and interaction tables
 function preload() {
@@ -40,9 +42,20 @@ function setup() {
   // setup the clickables = this will allocate the array
   clickables = clickablesManager.setup();
 
-  knifeSprite = createSprite(1200, 350, 150, 150);
+  batSprite = createSprite(width/3 + 650, height/2);
+  batSprite.addAnimation('regular', loadAnimation('assets/bat.png'));
 
-  knifeSprite.addAnimation('regular', loadAnimation('assets/knife1.png', 'assets/knife2.png'));
+  clockSprite = createSprite(width/2 + 500, height/2);
+  clockSprite.addAnimation('regular', loadAnimation('assets/clockOut.png'));
+
+  catRingSprite = createSprite(width/2, height/2 + 40);
+  catRingSprite.addAnimation('regular', loadAnimation('assets/catRing.png'));
+
+  phoneSprite = createSprite(width/2 + 300, height/2 + 40);
+  phoneSprite.addAnimation('regular', loadAnimation('assets/phone.png'));
+
+  taserSprite = createSprite(width/2 - 300, height/2 + 40);
+  taserSprite.addAnimation('regular', loadAnimation('assets/taser.png'));
 
   // create a sprite and add the 3 animations
   playerSprite = createSprite(width/2, height/2 + 200, 80, 80);
@@ -52,8 +65,17 @@ function setup() {
   playerSprite.addAnimation('still', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
   playerSprite.addAnimation('upDown', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
 
-  knifeCollected = false;
-  
+  text1 = loadImage('assets/text1.png');
+  text2 = loadImage('assets/text2.png');
+  text3 = loadImage('assets/text3.png');
+  text4 = loadImage('assets/text4.png');
+  text5 = loadImage('assets/text5.png');
+  text6 = loadImage('assets/text6.png');
+  text7 = loadImage('assets/text7.png');
+
+  taserCollected = false;
+  catRingCollected = false;
+  phoneCollected = false;
 
   // use this to track movement from toom to room in adventureManager.draw()
   adventureManager.setPlayerSprite(playerSprite);
@@ -122,25 +144,25 @@ function moveSprite() {
     playerSprite.changeAnimation('regular');
     //flip to go right
     playerSprite.mirrorX(1);
-    playerSprite.velocity.x = 10;
+    playerSprite.velocity.x = 20;
   }
   //walk to the left
   else if(keyIsDown(LEFT_ARROW)) {
     playerSprite.changeAnimation('regular');
     //flip to go left
     playerSprite.mirrorX(-1);
-    playerSprite.velocity.x = -10;
+    playerSprite.velocity.x = -20;
   }
   //move up and down
   //going down
   else if(keyIsDown(DOWN_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = 10;
+    playerSprite.velocity.y = 20;
   }
   //walk to the left
   else if(keyIsDown(UP_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = -10;
+    playerSprite.velocity.y = -20;
   }
   else {
     playerSprite.changeAnimation('still');
@@ -179,21 +201,36 @@ clickableButtonPressed = function() {
   adventureManager.clickablePressed(this.name); 
 }
 
-// ---- NEEDS WORK ----//
-function leaveVillage() {
-  if (adventureManager.getStateName() == "Village") {
-    adventureManager.changeState("Forest1");
-  }
-  else if (adventureManager.getStateName() == "Village") {
-    adventureManager.changeState("Bakery2");
-  }
-  playerSprite.position.x = 400;
-  playerSprite.position.y = 480;
+
+function clockCollision() {
+  image(text1, width/2 - 300, height/2 - 300);
 }
 
+function phoneCollision() {
+  phoneCollected = true;
+}
 
-function knifeCollision() {
-  knifeCollected = true;
+function text2Collision() {
+  image(text2, width/2 - 300, height/2 - 250);
+}
+
+function catRingCollision() {
+  catRingCollected = true;
+}
+
+function text3Collision() {
+  image(text3, width/2 - 300, height/2 - 250);
+}
+
+function taserCollision() {
+  taserCollected = true;
+}
+function text4Collision() {
+  image(text4, width/2 - 300, height/2 - 250);
+}
+
+function batCollision() {
+  image(text5, width/2 - 300, height/2 - 250)
 }
 
 //-------------- SUBCLASSES / YOUR DRAW CODE CAN GO HERE ---------------//
@@ -234,6 +271,39 @@ class InstructionsScreen extends PNGRoom {
   }
 }
 
+class Bakery extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+    // These are out variables in the InstructionsScreen class
+    this.textBoxWidth = (width/6)*2;
+    this.textBoxHeight = (height/6)*4; 
+
+    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
+    // this.instructionsText = "Time to clock out for the night. It's 5PM and the sun is beginning to set. Hurry home before it gets too dark outside.";
+  }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+
+    drawSprite(clockSprite);
+    playerSprite.overlap(clockSprite,clockCollision);
+      
+    // text draw settings
+    fill(255);
+    textAlign(CENTER);
+    textSize(30);
+
+    // Draw text in a box
+    text(this.instructionsText, width/3, height/2 - 100, this.textBoxWidth, this.textBoxHeight );
+  }
+}
+
 class Shop extends PNGRoom {
   // preload is where we define OUR variables
   // Best not to use constructor() functions for sublcasses of PNGRoom
@@ -244,7 +314,7 @@ class Shop extends PNGRoom {
     this.textBoxHeight = (height/6)*4; 
 
     // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    this.instructionsText = "Time to clock out for the night. It's 5PM and the sun is beginning to set. Hurry home before it gets too dark outside.";
+    // this.instructionsText = "Time to clock out for the night. It's 5PM and the sun is beginning to set. Hurry home before it gets too dark outside.";
   }
 
   // call the PNGRoom superclass's draw function to draw the background image
@@ -253,14 +323,27 @@ class Shop extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
-      
-    // text draw settings
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
+    
 
-    // Draw text in a box
-    text(this.instructionsText, width/3, height/2 - 100, this.textBoxWidth, this.textBoxHeight );
+    if (phoneCollected === false) {
+      drawSprite(phoneSprite);
+      playerSprite.overlap(phoneSprite, phoneCollision);
+    }
+
+     if (catRingCollected === false) {
+      drawSprite(catRingSprite);
+      playerSprite.overlap(catRingSprite, catRingCollision);
+    }
+
+     if (taserCollected === false) {
+      drawSprite(taserSprite);
+      playerSprite.overlap(taserSprite, taserCollision);
+    }
+
+    playerSprite.overlap(catRingSprite, text3Collision);
+    playerSprite.overlap(phoneSprite, text2Collision);
+    playerSprite.overlap(taserSprite, text4Collision);
+
   }
 }
 
@@ -283,15 +366,7 @@ class Town extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
-      
-    // text draw settings
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
-
-    // Draw text in a box
-    text(this.instructionsText, width/2 + 100, height/2 + 100, this.textBoxWidth, this.textBoxHeight );
-  }
+      }
 }
 
 class Forest extends PNGRoom {
@@ -313,15 +388,11 @@ class Forest extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
-    
-    // text draw settings
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
 
-    // Draw text in a box
-    text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
-  }
+    drawSprite(batSprite);
+    playerSprite.overlap(batSprite,batCollision);
+   
+   }
 }
 
 class Forest2 extends PNGRoom {
@@ -334,7 +405,7 @@ class Forest2 extends PNGRoom {
     this.textBoxHeight = (height/6)*4; 
 
     // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    this.instructionsText = "Before you go any deeper. Decide what weapon you want to hold in your hand. W: Mace – E: Taser – S: Alarm";
+    // this.instructionsText = "Before you go any deeper. Decide what weapon you want to hold in your hand. W: Mace – E: Taser – S: Alarm";
   }
 
   // call the PNGRoom superclass's draw function to draw the background image
@@ -343,12 +414,7 @@ class Forest2 extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
-    if (knifeCollected === false) {
-      drawSprite(knifeSprite);
-      playerSprite.overlap(knifeSprite,knifeCollision);
-    }
 
-      
     // text draw settings
     fill(255);
     textAlign(CENTER);
