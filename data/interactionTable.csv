@@ -16,4 +16,6 @@ Forest3,,,,,E,Forest4
 Forest4,,,,,W,Forest3
 Forest4,,,,,E,Forest5
 Forest5,,,,,W,Forest4
-Forest5,,,,,E,Home
+Forest5,,,,Taser,,Home
+Forest5,,,,Phone,,Home
+Forest5,,,,CatRing,,Home

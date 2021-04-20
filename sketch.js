@@ -1,6 +1,6 @@
 /***********************************************************************************
-  MoodyMaze
-  by Scott Kildall
+  Little Red
+  by An Duong
 
   Uses the p5.2DAdventure.js class 
   
@@ -28,6 +28,8 @@ const playGameIndex = 0;
 var catRingCollected;
 var taserCollected;
 var phoneCollected;
+
+var overlap;
 
 // Allocate Adventure Manager with states table and interaction tables
 function preload() {
@@ -57,15 +59,16 @@ function setup() {
   catRingSprite = createSprite(width/2, height/2 + 40);
   catRingSprite.addAnimation('regular', loadAnimation('assets/catRing.png'));
 
-  phoneSprite = createSprite(width/2 + 300, height/2 + 40);
+  phoneSprite = createSprite(width/2 + 350, height/2 + 40);
   phoneSprite.addAnimation('regular', loadAnimation('assets/phone.png'));
 
-  taserSprite = createSprite(width/2 - 300, height/2 + 40);
+  taserSprite = createSprite(width/2 - 350, height/2 + 40);
   taserSprite.addAnimation('regular', loadAnimation('assets/taser.png'));
 
   wolfSprite = createSprite(width/2, height/2+ 150, 80, 80);
 
-  wolfSprite.addAnimation('regular', loadAnimation('assets/avatars/man1.png', 'assets/avatars/man2.png', 'assets/avatars/man3.png', 'assets/avatars/man4.png'));
+  wolfSprite.addAnimation('moving', loadAnimation('assets/avatars/man1.png', 'assets/avatars/man2.png', 'assets/avatars/man3.png', 'assets/avatars/man4.png'));
+  wolfSprite.velocity.x = 3;
 
   // create a sprite and add the 3 animations
   playerSprite = createSprite(width/2, height/2 + 200, 80, 80);
@@ -82,9 +85,11 @@ function setup() {
   text5 = loadImage('assets/text5.png');
   text6 = loadImage('assets/text6.png');
   text7 = loadImage('assets/text7.png');
+  text8 = loadImage('assets/text8.png');
 
   werewolf = loadImage('assets/werewolf.png');
 
+  overlap = false;
 
   taserCollected = false;
   catRingCollected = false;
@@ -216,7 +221,7 @@ clickableButtonPressed = function() {
 
 
 function clockCollision() {
-  image(text1, width/2 - 300, height/2 - 300);
+  image(text1, width/2 - 400, height/2 - 300);
 }
 
 function phoneCollision() {
@@ -224,7 +229,7 @@ function phoneCollision() {
 }
 
 function text2Collision() {
-  image(text2, width/2 - 300, height/2 - 250);
+  image(text3, width/2 - 400, height/2 - 250);
 }
 
 function catRingCollision() {
@@ -232,14 +237,14 @@ function catRingCollision() {
 }
 
 function text3Collision() {
-  image(text3, width/2 - 300, height/2 - 250);
+  image(text4, width/2 - 400, height/2 - 250);
 }
 
 function taserCollision() {
   taserCollected = true;
 }
 function text4Collision() {
-  image(text4, width/2 - 300, height/2 - 250);
+  image(text2, width/2 - 400, height/2 - 250);
 }
 
 function batCollision() {
@@ -251,7 +256,7 @@ function bunnyCollision() {
 }
 
 function owlCollision() {
-  image(text7, width/2, height/2 - 250)
+  image(text7, width/2 - 100, height/2 - 250)
 }
 
 //-------------- SUBCLASSES / YOUR DRAW CODE CAN GO HERE ---------------//
@@ -373,13 +378,7 @@ class Town extends PNGRoom {
   // Best not to use constructor() functions for sublcasses of PNGRoom
   // AdventureManager calls preload() one time, during startup
   preload() {
-    // These are out variables in the InstructionsScreen class
-    this.textBoxWidth = (width/6)*2;
-    this.textBoxHeight = (height/6)*4; 
-
-    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    this.instructionsText = "You are about to enter the forest. Are you prepared? If not, turn around now and look for a different option. Press the down arrow to enter.";
-  }
+ }
 
   // call the PNGRoom superclass's draw function to draw the background image
   // and draw our instructions on top of this
@@ -467,6 +466,26 @@ class Forest4 extends PNGRoom {
 
     drawSprite(wolfSprite);
 
+
+  if(wolfSprite.position.x > width)
+    wolfSprite.position.x = 0;
+
+  }
+}
+
+class Forest5 extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+   }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
   }
 }
 
@@ -484,5 +503,6 @@ class Home extends PNGRoom {
     // this calls PNGRoom.draw()
     super.draw();
     image(werewolf,width/2, 400);
+    image(text8, width/2 - 450, height/2 - 150);
   }
 }

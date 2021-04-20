@@ -8,5 +8,5 @@ ID,StateName,ClassName,PNGFilename,CollisionFilename
 6,Forest2,Forest2,assets/pg5.png,assets/pg5_cl.csv,
 7,Forest3,Forest3,assets/pg6.png,assets/pg6_cl.csv,
 8,Forest4,Forest4,assets/pg7.png,assets/pg7_cl.csv,
-9,Forest5,PNGRoom,Assets/pg8.png,assets/pg8_cl.csv,
+9,Forest5,Forest5,Assets/pg8.png,assets/pg8_cl.csv,
 10,Home,Home,Assets/pgFin.png,

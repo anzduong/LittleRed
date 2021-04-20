@@ -1,2 +1,5 @@
 ID,Name,State,PNGFilename,Text,x,y,visible
-0,ClockOut,Shop,,Clock Out,950,250,yes
+0,ClockOut,Shop,,Clock Out,150,350,yes
+1,Taser,Forest5,assets/taser.png,,440,350,no
+2,Phone,Forest5,assets/phone.png,,640,350,no
+3,CatRing,Forest5,assets/catRing.png,,840,350,no
