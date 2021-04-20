@@ -2,13 +2,11 @@
   Little Red
   by An Duong
 
-  Uses the p5.2DAdventure.js class 
+  Uses the p5.2DAdventure.js class and collision map. 
+
+  This is a project focusing on the gender violence women face daily. It is recreated through a modern retelling of Little Red Riding Hood as a metaphor of being preyed upon (unknowingly). 
   
 ------------------------------------------------------------------------------------
-	To use:
-	Add this line to the index.html
-
-  <script src="p5.2DAdventure.js"></script>
 ***********************************************************************************/
 
 // adventure manager global  
@@ -25,11 +23,10 @@ var clickables;           // an array of clickable objects
 // indexes into the clickable array (constants)
 const playGameIndex = 0;
 
+
 var catRingCollected;
 var taserCollected;
 var phoneCollected;
-
-var overlap;
 
 // Allocate Adventure Manager with states table and interaction tables
 function preload() {
@@ -86,10 +83,9 @@ function setup() {
   text6 = loadImage('assets/text6.png');
   text7 = loadImage('assets/text7.png');
   text8 = loadImage('assets/text8.png');
+  text9 = loadImage('assets/text9.png');
 
   werewolf = loadImage('assets/werewolf.png');
-
-  overlap = false;
 
   taserCollected = false;
   catRingCollected = false;
@@ -486,6 +482,7 @@ class Forest5 extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
+    image(text9, width/2 - 350, height/2 - 300);
   }
 }
 
