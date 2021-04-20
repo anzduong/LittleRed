@@ -1,9 +1,9 @@
 CurrentState,KeyTyped,KeyCode,MouseEvent,ClickableName,MapDirection,NextState
 Splash,,,mouseReleased,,,Instructions
-Instructions,,,,StartGame,,Bakery
+Instructions,,,mouseReleased,,,Bakery
 Bakery,,,,,E,Shop
 Shop,,,,,W,Bakery
-Shop,,,,,E,Town
+Shop,,,,ClockOut,,Town
 Town,,,,,W,Shop
 Town,,,,,E,Forest
 Forest,,,,,W,Town

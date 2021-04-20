@@ -45,6 +45,12 @@ function setup() {
   batSprite = createSprite(width/3 + 650, height/2);
   batSprite.addAnimation('regular', loadAnimation('assets/bat.png'));
 
+  bunnySprite = createSprite(width/3 + 300, height/2 + 150);
+  bunnySprite.addAnimation('regular', loadAnimation('assets/bunny.png'));
+
+  owlSprite = createSprite(width/3 + 50, height/2 - 50);
+  owlSprite.addAnimation('regular', loadAnimation('assets/owl.png'));
+
   clockSprite = createSprite(width/2 + 500, height/2);
   clockSprite.addAnimation('regular', loadAnimation('assets/clockOut.png'));
 
@@ -57,13 +63,17 @@ function setup() {
   taserSprite = createSprite(width/2 - 300, height/2 + 40);
   taserSprite.addAnimation('regular', loadAnimation('assets/taser.png'));
 
+  wolfSprite = createSprite(width/2, height/2+ 150, 80, 80);
+
+  wolfSprite.addAnimation('regular', loadAnimation('assets/avatars/man1.png', 'assets/avatars/man2.png', 'assets/avatars/man3.png', 'assets/avatars/man4.png'));
+
   // create a sprite and add the 3 animations
   playerSprite = createSprite(width/2, height/2 + 200, 80, 80);
 
   // every animation needs a descriptor, since we aren't switching animations, this string value doesn't matter
-  playerSprite.addAnimation('regular', loadAnimation('assets/avatars/blueblob-01.png', 'assets/avatars/blueblob-05.png'));
-  playerSprite.addAnimation('still', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
-  playerSprite.addAnimation('upDown', loadAnimation('assets/avatars/blueblob-06.png', 'assets/avatars/blueblob-06.png'));
+  playerSprite.addAnimation('regular', loadAnimation('assets/avatars/littleRed1.png', 'assets/avatars/littleRed3.png', 'assets/avatars/littleRed4.png', 'assets/avatars/littleRed5.png', 'assets/avatars/littleRed1.png'));
+  playerSprite.addAnimation('still', loadAnimation('assets/avatars/littleRed6.png'));
+  playerSprite.addAnimation('upDown', loadAnimation('assets/avatars/littleRed6.png'));
 
   text1 = loadImage('assets/text1.png');
   text2 = loadImage('assets/text2.png');
@@ -72,6 +82,9 @@ function setup() {
   text5 = loadImage('assets/text5.png');
   text6 = loadImage('assets/text6.png');
   text7 = loadImage('assets/text7.png');
+
+  werewolf = loadImage('assets/werewolf.png');
+
 
   taserCollected = false;
   catRingCollected = false;
@@ -144,25 +157,25 @@ function moveSprite() {
     playerSprite.changeAnimation('regular');
     //flip to go right
     playerSprite.mirrorX(1);
-    playerSprite.velocity.x = 20;
+    playerSprite.velocity.x = 10;
   }
   //walk to the left
   else if(keyIsDown(LEFT_ARROW)) {
     playerSprite.changeAnimation('regular');
     //flip to go left
     playerSprite.mirrorX(-1);
-    playerSprite.velocity.x = -20;
+    playerSprite.velocity.x = -10;
   }
   //move up and down
   //going down
   else if(keyIsDown(DOWN_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = 20;
+    playerSprite.velocity.y = 10;
   }
   //walk to the left
   else if(keyIsDown(UP_ARROW)) {
     playerSprite.changeAnimation('upDown');
-    playerSprite.velocity.y = -20;
+    playerSprite.velocity.y = -10;
   }
   else {
     playerSprite.changeAnimation('still');
@@ -184,15 +197,15 @@ function setupClickables() {
 
 // tint when mouse is over
 clickableButtonHover = function () {
-  this.color = "#AA33AA";
+  this.color = "#FFFFFF";
   this.noTint = false;
-  this.tint = "#FF0000";
+  this.tint = "#D7CCFF";
 }
 
 // color a light gray if off
 clickableButtonOnOutside = function () {
   // backto our gray color
-  this.color = "#AAAAAA";
+  this.color = "#D7CCFF";
 }
 
 clickableButtonPressed = function() {
@@ -231,6 +244,14 @@ function text4Collision() {
 
 function batCollision() {
   image(text5, width/2 - 300, height/2 - 250)
+}
+
+function bunnyCollision() {
+  image(text6, width/2 - 300, height/2 - 250)
+}
+
+function owlCollision() {
+  image(text7, width/2, height/2 - 250)
 }
 
 //-------------- SUBCLASSES / YOUR DRAW CODE CAN GO HERE ---------------//
@@ -323,7 +344,7 @@ class Shop extends PNGRoom {
       
     // this calls PNGRoom.draw()
     super.draw();
-    
+
 
     if (phoneCollected === false) {
       drawSprite(phoneSprite);
@@ -374,12 +395,7 @@ class Forest extends PNGRoom {
   // Best not to use constructor() functions for sublcasses of PNGRoom
   // AdventureManager calls preload() one time, during startup
   preload() {
-    // These are out variables in the InstructionsScreen class
-    this.textBoxWidth = (width/6)*4;
-    this.textBoxHeight = (height/6)*4; 
 
-    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    this.instructionsText = "Before you go any deeper. Decide what weapon you want to hold in your hand. W: Mace – E: Taser – S: Alarm";
   }
 
   // call the PNGRoom superclass's draw function to draw the background image
@@ -400,13 +416,7 @@ class Forest2 extends PNGRoom {
   // Best not to use constructor() functions for sublcasses of PNGRoom
   // AdventureManager calls preload() one time, during startup
   preload() {
-    // These are out variables in the InstructionsScreen class
-    this.textBoxWidth = (width/6)*4;
-    this.textBoxHeight = (height/6)*4; 
-
-    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    // this.instructionsText = "Before you go any deeper. Decide what weapon you want to hold in your hand. W: Mace – E: Taser – S: Alarm";
-  }
+   }
 
   // call the PNGRoom superclass's draw function to draw the background image
   // and draw our instructions on top of this
@@ -415,12 +425,64 @@ class Forest2 extends PNGRoom {
     // this calls PNGRoom.draw()
     super.draw();
 
-    // text draw settings
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
+    drawSprite(bunnySprite);
+    playerSprite.overlap(bunnySprite,bunnyCollision);
 
-    // Draw text in a box
-    text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
+  }
+}
+
+class Forest3 extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+   }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+
+    drawSprite(owlSprite);
+    playerSprite.overlap(owlSprite,owlCollision);
+
+  }
+}
+
+class Forest4 extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+   }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+
+    drawSprite(wolfSprite);
+
+  }
+}
+
+class Home extends PNGRoom {
+  // preload is where we define OUR variables
+  // Best not to use constructor() functions for sublcasses of PNGRoom
+  // AdventureManager calls preload() one time, during startup
+  preload() {
+   }
+
+  // call the PNGRoom superclass's draw function to draw the background image
+  // and draw our instructions on top of this
+  draw() {
+      
+    // this calls PNGRoom.draw()
+    super.draw();
+    image(werewolf,width/2, 400);
   }
 }
