@@ -32,6 +32,9 @@ var phoneCollected;
 function preload() {
   clickablesManager = new ClickableManager('data/clickableLayout.csv');
   adventureManager = new AdventureManager('data/adventureStates.csv', 'data/interactionTable.csv', 'data/clickableLayout.csv');
+
+  chonkoFont = loadFont('assets/CHONKO_DISPLAY.ttf');
+  considerationFont = loadFont('assets/Conseration.ttf');
 }
 
 // Setup the adventure manager
@@ -271,7 +274,7 @@ class InstructionsScreen extends PNGRoom {
     this.textBoxHeight = (height/6)*4; 
 
     // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    this.instructionsText = "You are Little Red Hiding Hood – now as a young woman trying to walk home after a shift at the local bakery in the village. The sun is about to set and it will only get darker. Remember to be aware of your surroundings .... and especially any strangers.";
+    this.instructionsText = "You are Little Red Walking Hoodie, now as a young woman trying to walk home after a shift at the local bakery in the village. The sun is about to set and it will only get darker. Remember to be aware of your surroundings .... and especially any strangers.";
   }
 
   // call the PNGRoom superclass's draw function to draw the background image
@@ -286,7 +289,8 @@ class InstructionsScreen extends PNGRoom {
     // text draw settings
     fill(255);
     textAlign(CENTER);
-    textSize(30);
+    textSize(60);
+    textFont(considerationFont);
 
     // Draw text in a box
     text(this.instructionsText, width/6, height/6, this.textBoxWidth, this.textBoxHeight );
@@ -298,12 +302,6 @@ class Bakery extends PNGRoom {
   // Best not to use constructor() functions for sublcasses of PNGRoom
   // AdventureManager calls preload() one time, during startup
   preload() {
-    // These are out variables in the InstructionsScreen class
-    this.textBoxWidth = (width/6)*2;
-    this.textBoxHeight = (height/6)*4; 
-
-    // hard-coded, but this could be loaded from a file if we wanted to be more elegant
-    // this.instructionsText = "Time to clock out for the night. It's 5PM and the sun is beginning to set. Hurry home before it gets too dark outside.";
   }
 
   // call the PNGRoom superclass's draw function to draw the background image
@@ -315,14 +313,6 @@ class Bakery extends PNGRoom {
 
     drawSprite(clockSprite);
     playerSprite.overlap(clockSprite,clockCollision);
-      
-    // text draw settings
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
-
-    // Draw text in a box
-    text(this.instructionsText, width/3, height/2 - 100, this.textBoxWidth, this.textBoxHeight );
   }
 }
 
